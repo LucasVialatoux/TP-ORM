@@ -13,13 +13,11 @@ public class ViewContext {
     private User user;
     private Billet billet;
     private List<Categorie> categories;
+    private String titre;
 
-    public ViewContext(User user, Billet billet, List<Categorie> categories) {
-        this.user = user;
-        this.billet = billet;
-        this.categories = categories;
+    public ViewContext() {
     }
-    
+
     public User getUser() {
         return user;
     }
@@ -42,5 +40,13 @@ public class ViewContext {
 
     public void setCategories(List<Categorie> categories) {
         this.categories = categories;
+    }
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
     }
 }

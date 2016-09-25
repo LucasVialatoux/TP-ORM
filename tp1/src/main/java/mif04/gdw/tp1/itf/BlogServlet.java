@@ -2,9 +2,7 @@ package mif04.gdw.tp1.itf;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
 import com.github.mustachejava.MustacheResolver;
-import com.github.mustachejava.resolver.ClasspathResolver;
 import mif04.gdw.tp1.metier.Blog;
 import mif04.gdw.tp1.modele.Billet;
 import mif04.gdw.tp1.modele.User;
@@ -68,40 +66,75 @@ public class BlogServlet extends HttpServlet {
         templates.get(tplName).execute(output, ctx);
     }
 
+    private ViewContext initViewContext(HttpServletRequest request) {
+        ViewContext ctx = new ViewContext();
+        ctx.setTitre("Bienvenu(e)");
+        ctx.setUser(blog.getUser(request.getParameter("user")));
+        Billet billet = blog.getBillet(
+                request.getParameter("titre"),
+                request.getParameter("categorie"));
+        ctx.setBillet(billet);
+        if (billet != null) {
+            ctx.setTitre(billet.getCategorie().getNom() + ":" + billet.getTitre());
+        }
+        ctx.setCategories(blog.getCategories());
+        return ctx;
+    }
+
     @Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException,
             IOException {
-        String titre = "PAS DE TITRE";
-        User currentUser = null;
-        Billet billet = null;
-        view(response, titre, new ViewContext(currentUser, billet, blog.getCategories()));
+        view(response, initViewContext(request));
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ViewContext ctx = initViewContext(request);
+        String action = request.getParameter("action");
+        switch (action) {
+            case "login":
+                ctx.setUser(blog.getUser(request.getParameter("email")));
+                break;
+            case "logout":
+                ctx.setUser(null);
+                ctx.setTitre("Bienvenu(e)");
+                ctx.setBillet(null);
+                break;
+            case "create_user":
+                ctx.setUser(blog.newUser(request.getParameter("email"), request.getParameter("pseudo")));
+                break;
+            case "create":
+                ctx.setBillet(blog.nouveauBillet(
+                        request.getParameter("titre"),
+                        request.getParameter("categorie"),
+                        request.getParameter("contenu"),
+                        ctx.getUser()));
+            case "edit":
+                blog.changeBillet(ctx.getBillet(), request.getParameter("contenu"));
+        }
+        view(response, ctx);
     }
 
-    protected void view(HttpServletResponse response, String titre, ViewContext context) throws IOException {
+    protected void view(HttpServletResponse response, ViewContext context) throws IOException {
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
         PrintWriter output = response.getWriter();
-        output.println("<html><head><title>" + titre + "</title></head><body>");
+        output.println("<html><head><title>" + context.getTitre() + "</title></head><body>");
         output.println("<div class='login'>");
         viewLogin(output, context);
         output.println("</div>");
         output.println("<div class='categories' style='float:right'>");
         viewCategorieList(output, context);
         output.println("</div>");
-        output.println("<div class='main'><h1>" + titre + "</h1>");
+        output.println("<div class='main'><h1>" + context.getTitre() + "</h1>");
         viewBody(output, context);
         output.println("</div>");
         output.println("</body></html>");
     }
 
     private void viewLogin(PrintWriter output, ViewContext context) {
-        if (context == null) {
+        if (context.getUser() == null) {
             render(output, "login", context);
         } else {
             render(output, "logout", context);

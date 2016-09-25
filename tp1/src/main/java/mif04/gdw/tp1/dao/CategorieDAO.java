@@ -18,4 +18,15 @@ public class CategorieDAO {
         // TODO: compléter cette méthode
         return new ArrayList<>();
     }
+
+    /**
+     * Créée une nouvelle catégorie en fonction de son nom ou renvoie une catégorie si elle existe déjà.
+     *
+     * @param nomCategorie
+     * @return
+     */
+    public Categorie getOrCreate(String nomCategorie) {
+        // TODO: compléter cette méthode
+        return null;
+    }
 }
