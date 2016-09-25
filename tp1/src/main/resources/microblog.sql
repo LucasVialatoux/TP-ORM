@@ -15,3 +15,6 @@ CREATE TABLE BILLET (
   CONTENU    TEXT,
   PRIMARY KEY (ID_CAT, TITRE)
 );
+
+-- Utilisé pour la génération d'identifiants entiers
+CREATE SEQUENCE hibernate_sequence;
