@@ -110,8 +110,10 @@ public class BlogServlet extends HttpServlet {
                         request.getParameter("categorie"),
                         request.getParameter("contenu"),
                         ctx.getUser()));
+                break;
             case "edit":
                 blog.changeBillet(ctx.getBillet(), request.getParameter("contenu"));
+                break;
         }
         view(response, ctx);
     }
