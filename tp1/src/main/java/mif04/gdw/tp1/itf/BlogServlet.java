@@ -152,7 +152,8 @@ public class BlogServlet extends HttpServlet {
     private void viewBody(PrintWriter output, ViewContext context) {
         if (context.getBillet() != null) {
             render(output, "billet", context);
-            if (context.getUser().equals(context.getBillet().getUser())) {
+            if (context.getUser() != null &&
+                    context.getUser().equals(context.getBillet().getUser())) {
                 render(output, "edit", context);
             }
         }
