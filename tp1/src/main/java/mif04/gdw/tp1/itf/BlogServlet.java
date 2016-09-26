@@ -104,13 +104,19 @@ public class BlogServlet extends HttpServlet {
             case "create_user":
                 ctx.setUser(blog.newUser(request.getParameter("email"), request.getParameter("pseudo")));
                 break;
-            case "create":
-                ctx.setBillet(blog.nouveauBillet(
-                        request.getParameter("titre"),
-                        request.getParameter("categorie"),
-                        request.getParameter("contenu"),
-                        ctx.getUser()));
-                break;
+            case "create": {
+                Billet billet =
+                        blog.nouveauBillet(
+                                request.getParameter("titre"),
+                                request.getParameter("categorie"),
+                                request.getParameter("contenu"),
+                                ctx.getUser());
+                if (!ctx.getCategories().contains(billet.getCategorie())) {
+                    ctx.getCategories().add(billet.getCategorie());
+                }
+                ctx.setBillet(billet);
+            }
+            break;
             case "edit":
                 blog.changeBillet(ctx.getBillet(), request.getParameter("contenu"));
                 break;
