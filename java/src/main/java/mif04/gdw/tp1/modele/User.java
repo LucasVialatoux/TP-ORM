@@ -1,25 +1,39 @@
 package mif04.gdw.tp1.modele;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created by ecoquery on 25/09/2016.
  */
-public class User {
+@Entity
+@Table(name="USERS")
+public class User implements Serializable {
+    private String pseudo;
+    
+    @Column(name="EMAIL")
+    @Id String email;
 
+    public User(String pseudo, String email) {
+        this.pseudo = pseudo;
+        this.email = email;
+    }
     /**
      * Renvoie le pseudo de l'utilisateur
-     * @return le pseudo
+     * @return pseudo
      */
     public String getPseudo() {
-        // TODO: à compléter
-        return null;
+        return pseudo;
     }
 
     /**
      * Renvoie l'email de l'utilisateur
-     * @return
+     * @return email
      */
     public String getEmail() {
-        // TODO: à compléter
-        return null;
+        return email;
     }
 }

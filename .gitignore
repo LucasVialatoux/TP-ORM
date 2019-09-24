@@ -6,3 +6,4 @@ target
 .project
 .settings
 .vscode
+java/src/main/resources/META-INF/persistence.xml
