@@ -5,9 +5,9 @@
             <!--property name="hibernate.connection.driver_class" value="org.h2.Driver" /-->
             <!--property name="hibernate.connection.url" value="jdbc:h2:tcp://localhost/~/gdw-db" /-->
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
-            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost/mif04" />
-            <property name="hibernate.connection.user" value="mif04" />
-            <property name="hibernate.connection.password" value="mif04pwd" />
+            <property name="hibernate.connection.url" value="jdbc:postgresql://bd-pedago.univ-lyon1.fr/LoginPG" />
+            <property name="hibernate.connection.user" value="LoginPG" />
+            <property name="hibernate.connection.password" value="PwdPG" />
             <!-- Utiliser le fichier microblog.sql pour créer les tables -->
             <property name="hibernate.hbm2ddl.auto" value="validate" />
         </properties>
