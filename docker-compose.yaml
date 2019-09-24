@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      # POSTGRES_DB will be named as the user by default
+      # POSTGRES_DB: smsadmin
+      POSTGRES_USER: mif04
+      POSTGRES_PASSWORD: mif04pwd
+    ports:
+      - "5432:5432"
