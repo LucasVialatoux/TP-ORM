@@ -7,10 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collection;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by ecoquery on 25/09/2016.
@@ -18,11 +15,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name="CATEGORIE")
 public class Categorie implements Serializable {
+    
+    @Id
     @Column(name="ID_CAT")
-    @Id int id_cat;
+    @GeneratedValue()
+    private int id_cat;
+    
     private String nom;
 
     private static final Logger LOG = LoggerFactory.getLogger(Categorie.class);
+    
+    public Categorie(String nom){
+        this.nom = nom;
+    }
 
     /**
      * Renvoie le nom de la catégorie

@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by ecoquery on 25/09/2016.
@@ -18,17 +15,21 @@ import javax.persistence.Table;
 @Table(name="BILLET")
 public class Billet implements Serializable {
     private static final Logger LOG = LoggerFactory.getLogger(Billet.class);
+    
     @Column(name="CONTENU")
+    @Lob
     private String contenu;
-    @Column(name="USER_EMAIL")
-    private String user_email;
+    
+    @ManyToOne
+    private User user;
+    
     @EmbeddedId
     EmbeddedBillet emBillet;
     
-    public Billet(String contenu, String user_email, String titre, int id_cat){
-        emBillet = new EmbeddedBillet(id_cat,titre);
+    public Billet(String contenu, User user, String titre, Categorie cat){
+        emBillet = new EmbeddedBillet(cat,titre);
         this.contenu = contenu;
-        this.user_email = user_email;
+        this.user = user;
     }
 
 
@@ -38,7 +39,7 @@ public class Billet implements Serializable {
      * @return
      */
     public User getUser() {
-        return null;
+        return user;
     }
 
     /**
@@ -47,8 +48,7 @@ public class Billet implements Serializable {
      * @return la catégorie du billet
      */
     public Categorie getCategorie() {
-        int id_cat = emBillet.getId_cat();
-        return null;
+        return emBillet.categorie;
     }
 
     /**
@@ -57,7 +57,7 @@ public class Billet implements Serializable {
      * @return le titre
      */
     public String getTitre() {
-        return emBillet.getTitre();
+        return emBillet.titre;
     }
 
     /**

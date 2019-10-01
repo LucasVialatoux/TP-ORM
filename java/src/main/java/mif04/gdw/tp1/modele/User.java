@@ -1,10 +1,7 @@
 package mif04.gdw.tp1.modele;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by ecoquery on 25/09/2016.
